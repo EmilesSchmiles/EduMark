@@ -47,7 +47,7 @@ namespace EduMark.Services
                 return null;
 
             bool verified = BCrypt.Net.BCrypt.Verify(password, teacher.PasswordHash);
-            return verified ? teacher : null; 
+            return verified ? teacher : null;
         }
     }
 }
