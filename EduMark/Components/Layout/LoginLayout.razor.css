@@ -1,0 +1,15 @@
+﻿.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #f7f7f7;
+}
+
+.login-layout-body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
