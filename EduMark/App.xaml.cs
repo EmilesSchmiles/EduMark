@@ -16,7 +16,7 @@ namespace EduMark
         {
             return new Window(new MainPage())
             {
-                Title = ""
+                Title = "EduMark"
             };
 
         }

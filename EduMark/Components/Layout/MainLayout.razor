@@ -1,13 +1,34 @@
-﻿@inherits LayoutComponentBase
+﻿@inject NavigationManager NavManager
+@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
+    <!-- Sidebar -->
+    <div class="sidebar @(isNavExpanded ? "expanded" : "collapsed")">
+        <NavMenu IsNavExpanded="isNavExpanded" OnToggleNav="ToggleSidebar" />
     </div>
 
+    <!-- Main content -->
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <!-- Left: Dynamic page title -->
+            <span class="page-title">@CurrentPageTitle</span>
+
+            <!-- Right: User dropdown -->
+            <div class="user-menu">
+                <button class="user-button" @onclick="ToggleUserDropdown">
+                    <span class="user-name">@UserName</span>
+                    <span class="bi bi-caret-down-fill"></span>
+                    <span class="bi bi-person-circle user-icon"></span>
+                </button>
+
+                @if (IsUserDropdownOpen)
+                {
+                    <div class="user-dropdown">
+                        <a href="account">Account</a>
+                        <a href="login">Logout</a>
+                    </div>
+                }
+            </div>
         </div>
 
         <article class="content px-4">
@@ -15,3 +36,47 @@
         </article>
     </main>
 </div>
+
+@code {
+    private bool isNavExpanded = true;
+    private bool IsUserDropdownOpen = false;
+    private string UserName = "John Doe"; // replace with actual user
+    private string CurrentPageTitle { get; set; } = "Student Performance Overview";
+
+    protected override void OnInitialized()
+    {
+        UpdatePageTitle(NavManager.Uri);
+        NavManager.LocationChanged += HandleLocationChanged;
+    }
+
+    private void HandleLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        UpdatePageTitle(e.Location);
+        StateHasChanged();
+    }
+
+    private void UpdatePageTitle(string uri)
+    {
+        var relativePath = NavManager.ToBaseRelativePath(uri).ToLower();
+
+        CurrentPageTitle = relativePath switch
+        {
+            "" => "Student Performance Overview",
+            "home" => "Student Performance Overview",
+            "marks/markcalculator" => "Mark Calculator",
+            "schedule/weeklyschedule" => "Weekly Schedule",
+            _ => "Page"
+        };
+    }
+
+    private async Task ToggleSidebar()
+    {
+        isNavExpanded = !isNavExpanded;
+        await Task.CompletedTask;
+    }
+
+    private void ToggleUserDropdown()
+    {
+        IsUserDropdownOpen = !IsUserDropdownOpen;
+    }
+}

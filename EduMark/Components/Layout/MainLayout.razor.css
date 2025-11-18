@@ -1,77 +1,130 @@
+/* --- Page / layout --- */
 .page {
-    position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    height: 100vh;
 }
 
 main {
     flex: 1;
+    min-width: 0; /* prevents child overflow causing horizontal scroll */
+    overflow: auto;
 }
 
+/* --- Sidebar base (purple gradient) --- */
 .sidebar {
+    height: 100vh;
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    white-space: nowrap;
+    overflow-x: hidden; /* avoid horizontal scroll */
+    transition: width 0.22s ease;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    box-shadow: 2px 0 6px rgba(0,0,0,0.08);
 }
 
+    /* expanded / collapsed widths */
+    .sidebar.expanded {
+        width: 250px;
+    }
+
+    .sidebar.collapsed {
+        width: 60px;
+    }
+
+/* top row inside main area */
+/* --- Top row layout --- */
 .top-row {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
-    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* About left, user menu right */
     height: 3.5rem;
+    background-image: linear-gradient(90deg, rgb(5, 39, 103) 0%, #3a0647 100%);
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 0 1rem;
+}
+
+/* Page title */
+.page-title {
+    font-size: 1.2rem;
+    font-weight: 200;
+    color: white;
+}
+
+/* User menu container */
+.user-menu {
+    position: relative;
     display: flex;
     align-items: center;
 }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-        text-decoration: none;
-    }
-
-        .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
-            text-decoration: underline;
-        }
-
-        .top-row ::deep a:first-child {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-@media (max-width: 640.98px) {
-    .top-row {
-        justify-content: space-between;
-    }
-
-        .top-row ::deep a, .top-row ::deep .btn-link {
-            margin-left: 0;
-        }
+/* User button */
+.user-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95rem;
+    color: white;
 }
 
-@media (min-width: 641px) {
-    .page {
-        flex-direction: row;
+/* User icon */
+.user-icon {
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Dropdown menu */
+.user-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #3a0647; /* match sidebar */
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    margin-top: 0.25rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    z-index: 100;
+}
+
+    .user-dropdown a {
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        color: white;
+        transition: background 0.2s ease, color 0.2s ease;
     }
 
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-    }
-
-    .top-row {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
-
-        .top-row.auth ::deep a:first-child {
-            flex: 1;
-            text-align: right;
-            width: 0;
+        .user-dropdown a:hover {
+            background-color: #e754a6; /* purple-pink */
+            color: white;
         }
 
-    .top-row, article {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
+/* content area padding stay consistent */
+.content {
+    padding-top: 1rem;
+}
+
+
+
+/* small screens behaviour (still ok to keep) */
+@media (max-width: 640.98px) {
+    .page {
+        flex-direction: column;
+    }
+
+    .sidebar.expanded {
+        width: 100%;
+        height: auto;
+    }
+
+    .sidebar.collapsed {
+        width: 100%;
     }
 }
