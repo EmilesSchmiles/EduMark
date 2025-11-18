@@ -1,0 +1,17 @@
+﻿@page "/marks/markcalculator"
+
+<h1>Mark Calculator</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Calculate</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        // Later you can add real mark calculation logic here
+    }
+}

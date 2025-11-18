@@ -1,0 +1,60 @@
+﻿@page "/schedule/weeklyschedule"
+
+<h1>Weekly Schedule</h1>
+
+<p>This component demonstrates the weekly class schedule.</p>
+
+@if (schedule == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Class</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var slot in schedule)
+            {
+                <tr>
+                    <td>@slot.DayOfWeek</td>
+                    <td>@slot.StartTime.ToString(@"hh\:mm")</td>
+                    <td>@slot.EndTime.ToString(@"hh\:mm")</td>
+                    <td>@slot.ClassName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private WeeklySlot[]? schedule;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate async loading
+        await Task.Delay(500);
+
+        // Example static data
+        schedule = new[]
+        {
+            new WeeklySlot { DayOfWeek = "Monday", StartTime = new TimeSpan(8,0,0), EndTime = new TimeSpan(10,0,0), ClassName = "Math" },
+            new WeeklySlot { DayOfWeek = "Tuesday", StartTime = new TimeSpan(10,0,0), EndTime = new TimeSpan(12,0,0), ClassName = "Science" },
+            new WeeklySlot { DayOfWeek = "Wednesday", StartTime = new TimeSpan(8,0,0), EndTime = new TimeSpan(10,0,0), ClassName = "English" },
+        };
+    }
+
+    private class WeeklySlot
+    {
+        public string DayOfWeek { get; set; } = "";
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+        public string ClassName { get; set; } = "";
+    }
+}
