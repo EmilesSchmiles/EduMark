@@ -7,13 +7,13 @@ namespace EduMark.Components.Pages
     public class RegisterBase : ComponentBase
     {
         [Inject]
-        public AuthService AuthService { get; set; }
+        public required AuthService AuthService { get; set; }
 
         [Inject]
-        public NavigationManager NavManager { get; set; }
+        public required NavigationManager NavManager { get; set; }
 
         protected RegisterModel RegisterModel = new();
-        protected string Message;
+        protected string Message = "";
 
         protected async Task HandleRegister()
         {

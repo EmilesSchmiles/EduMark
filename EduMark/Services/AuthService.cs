@@ -4,14 +4,9 @@ using SQLite;
 
 namespace EduMark.Services
 {
-    public class AuthService
+    public class AuthService(AppDb db)
     {
-        private readonly AppDb _db;
-
-        public AuthService(AppDb db)
-        {
-            _db = db;
-        }
+        private readonly AppDb _db = db;
 
         // Register a new teacher
         public async Task<bool> RegisterTeacherAsync(string fullName, string email, string password)

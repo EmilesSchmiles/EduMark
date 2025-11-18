@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using EduMark.Models;
+using EduMark.Services;
 
 namespace EduMark.Components.Pages
 {
@@ -7,7 +9,7 @@ namespace EduMark.Components.Pages
     {
         protected LoginModel LoginModel { get; set; } = new();
 
-        [Inject] NavigationManager Navigation { get; set; }
+        [Inject]public required NavigationManager Navigation { get; set; }
 
         protected void HandleLogin()
         {
@@ -15,15 +17,7 @@ namespace EduMark.Components.Pages
             Navigation.NavigateTo("/home");
         }
 
-        protected void NavigateToRegister()
-        {
-            Navigation.NavigateTo("/register");
-        }
+        protected void NavigateToRegister() => Navigation.NavigateTo("/register");
     }
 
-    public class LoginModel
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
 }

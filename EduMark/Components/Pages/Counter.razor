@@ -15,10 +15,12 @@
         currentCount++;
     }
 
-    [Inject] NavigationManager NavManager { get; set; }
+    [Inject]
+    public required NavigationManager NavManager { get; set; }
 
     void GoToRegister()
     {
         NavManager.NavigateTo("/register");
     }
+
 }
