@@ -14,10 +14,10 @@ main {
 /* --- Sidebar base (purple gradient) --- */
 .sidebar {
     height: 100vh;
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(180deg, #4da6ff 20%, #925cf0 66%, #F803FE 99%);
     white-space: nowrap;
     overflow-x: hidden; /* avoid horizontal scroll */
-    transition: width 0.22s ease;
+    transition: width 0.35s ease-in-out;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -26,11 +26,11 @@ main {
 
     /* expanded / collapsed widths */
     .sidebar.expanded {
-        width: 250px;
+        width: 220px;
     }
 
     .sidebar.collapsed {
-        width: 60px;
+        width: 83px;
     }
 
 /* top row inside main area */
@@ -40,7 +40,7 @@ main {
     align-items: center;
     justify-content: space-between; /* About left, user menu right */
     height: 3.5rem;
-    background-image: linear-gradient(90deg, rgb(5, 39, 103) 0%, #3a0647 100%);
+    background-image: linear-gradient(70deg, #4da6ff 33%, #925cf0 66%, #F803FE 99%);
     color: white;
     border-bottom: 1px solid rgba(255,255,255,0.1);
     padding: 0 1rem;

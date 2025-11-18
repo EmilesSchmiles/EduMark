@@ -2,7 +2,7 @@
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(180deg, #4da6ff 33%, #925cf0 66%, #F803FE 99%);
     white-space: nowrap;
     overflow-x: hidden;
     transition: width 0.25s ease;
@@ -41,9 +41,9 @@
     font-size: 1.25rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     cursor: pointer;
-    padding: 6px;
+    padding: 20px;
 }
 
 /* --- Nav items --- */
@@ -51,44 +51,50 @@
     display: flex;
     align-items: center;
     padding: 6px 12px;
-    transition: justify-content 0.25s ease, padding 0.25s ease;
+    
 }
 
+    /* Nav link base */
+    /* Nav link base */
     .nav-item .nav-link {
         display: flex;
         align-items: center;
         width: 100%;
-        color: white; /* default text white */
+        color: white; /* default text */
         text-decoration: none;
         border-radius: 4px;
         height: 3rem;
         line-height: 3rem;
-        transition: background 0.25s ease, color 0.25s ease;
+        
     }
 
-        /* Hover effect: purple-pink text and icons */
+        /* Hover effect */
         .nav-item .nav-link:hover {
-            color: #e754a6; /* purple-pink */
-            background-color: rgba(255, 255, 255, 0.05); /* subtle hover background */
+            color: #f1ab2d; /* bright cyan */
+            background-color: rgba(0,0,0,0.5); /* subtle background for contrast */
         }
 
+            /* Icon color on hover */
             .nav-item .nav-link:hover .bi {
-                color: #e754a6; /* icon changes color on hover */
+                color: #f1ab2d;
             }
 
-        /* Active link styling */
+        /* Active link styling: same as hover */
         .nav-item .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #e754a6; /* active text color */
+            color: #f1ab2d; /* stays highlighted when selected */
+            background-color: rgba(0,0,0,0.5);
         }
 
+            /* Active icon color */
             .nav-item .nav-link.active .bi {
-                color: #e754a6; /* active icon color */
+                color: #f1ab2d;
             }
+
 
         .nav-item .nav-link:hover .label {
-            color: #e754a6; /* label text changes color on hover */
+            color: #f1ab2d; /* label text changes color on hover */
         }
+
 
 /* --- Label text --- */
 .label {
@@ -96,6 +102,8 @@
     color: white; /* text white */
     transition: opacity 0.25s ease, width 0.25s ease, color 0.25s ease;
 }
+
+
 
 /* --- Icons --- */
 .bi {
@@ -107,7 +115,7 @@
     line-height: 1;
     color: white; /* icon white */
     flex-shrink: 0; /* prevent shifting */
-    transition: margin 0.25s ease, color 0.25s ease;
+
 }
 
 /* --- Collapsed sidebar adjustments --- */
@@ -117,14 +125,14 @@
     display: inline-block;
 }
 
+
 .sidebar.collapsed .nav-item {
-    justify-content: center;
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 2px;
+    padding-right: 8px;
 }
 
 .sidebar.collapsed .bi {
-    margin-right: 0;
+    margin-right: 4px;
 }
 
 .sidebar.collapsed .nav-scrollable {
