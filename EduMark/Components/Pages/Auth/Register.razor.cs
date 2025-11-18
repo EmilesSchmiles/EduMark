@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Components;
 using EduMark.Models;
-using EduMark.Services;
+using EduMark.Services.Implementations;
+using EduMark.Services.Interfaces;
 
 namespace EduMark.Components.Pages
 {
     public class RegisterBase : ComponentBase
     {
-        [Inject]
-        public required AuthService AuthService { get; set; }
+        [Inject]        
+        public required IAuthService AuthService { get; set; }
 
         [Inject]
         public required NavigationManager NavManager { get; set; }
@@ -31,10 +32,10 @@ namespace EduMark.Components.Pages
 
             if (success)
             {
-                Message = "Registration successful! Redirecting to login...";
-                await Task.Delay(1500);
-                NavManager.NavigateTo("/login");
+                Message = "Registration successful!";
+                NavManager.NavigateTo($"/verifyemail?email={RegisterModel.Email}");
             }
+
             else
             {
                 Message = "Email already exists.";

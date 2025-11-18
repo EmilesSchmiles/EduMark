@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using Blazorise;
+﻿using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using EduMark.Data;
-using EduMark.Services;
+using EduMark.Services.Implementations;
+using EduMark.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+
 
 #if WINDOWS
 using Microsoft.UI.Windowing;
@@ -41,7 +43,9 @@ namespace EduMark
                 .AddFontAwesomeIcons();
 
             builder.Services.AddSingleton<AppDb>();
-            builder.Services.AddSingleton<AuthService>();
+            builder.Services.AddSingleton<IAuthService, AuthService>();
+            builder.Services.AddSingleton<IEmailService, EmailService>();
+
 
 #if WINDOWS
 builder.ConfigureLifecycleEvents(events =>

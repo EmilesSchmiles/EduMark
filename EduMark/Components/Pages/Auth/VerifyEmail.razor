@@ -1,0 +1,35 @@
+﻿@page "/verifyemail"
+@inherits VerifyEmailBase
+@layout LoginLayout
+
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+        <div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33" style="max-height: 500px;">
+
+            <span class="login100-form-title" style="padding-bottom: 30px; font-size: 2.2rem;">
+                Email Verification
+            </span>
+
+            <p style="margin-bottom: 20px;">An OTP code has been sent to your email.</p>
+
+            @if (!string.IsNullOrEmpty(Error))
+            {
+                <p style="color:red; margin-bottom: 10px;">@Error</p>
+            }
+
+            <EditForm Model="@this" OnValidSubmit="Verify">
+                <div class="wrap-input100 validate-input">
+                    <InputText class="input100" placeholder="Enter OTP" @bind-Value="Otp" />
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="container-login100-form-btn m-t-17">
+                    <button type="submit" class="login100-form-btn">
+                        Verify
+                    </button>
+                </div>
+            </EditForm>
+
+        </div>
+    </div>
+</div>
