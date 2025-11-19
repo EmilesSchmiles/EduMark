@@ -1,5 +1,6 @@
 ﻿@page "/home"
 @layout MainLayout
+@inherits HomeBase
 @using MudBlazor
 
 <ErrorBoundary>
@@ -8,36 +9,34 @@
 
             <!-- Filters Section -->
             <MudGrid Class="mb-4">
-                <!-- Left side filters: Filter + By -->
                 <MudItem xs="12" md="6">
                     <MudGrid>
                         <MudItem xs="6" md="4">
                             <MudText Typo="Typo.body2" Class="mb-2">Filter:</MudText>
                             <MudSelect T="string" @bind-Value="SelectedFilter" Variant="Variant.Outlined" Dense="true">
-                                <MudSelectItem Value="@("Students")">Students</MudSelectItem>
-                                <MudSelectItem Value="@("Class")">Class</MudSelectItem>
+                                <MudSelectItem Value=@("Students")>Students</MudSelectItem>
+                                <MudSelectItem Value=@("Class")>Class</MudSelectItem>
                             </MudSelect>
                         </MudItem>
 
                         <MudItem xs="6" md="4">
                             <MudText Typo="Typo.body2" Class="mb-2">By:</MudText>
                             <MudSelect T="string" @bind-Value="SelectedBy" Variant="Variant.Outlined" Dense="true">
-                                <MudSelectItem Value="@("Class")">Class</MudSelectItem>
-                                <MudSelectItem Value="@("Tests")">Tests</MudSelectItem>
-                                <MudSelectItem Value="@("Subject")">Subject</MudSelectItem>
+                                <MudSelectItem Value=@("Class")>Class</MudSelectItem>
+                                <MudSelectItem Value=@("Tests")>Tests</MudSelectItem>
+                                <MudSelectItem Value=@("Subject")>Subject</MudSelectItem>
                             </MudSelect>
                         </MudItem>
                     </MudGrid>
                 </MudItem>
 
-                <!-- Right side filter: Timeframe -->
                 <MudItem xs="12" md="6" Class="d-flex justify-end">
                     <div style="max-width: 250px; width: 100%;">
                         <MudText Typo="Typo.body2" Class="mb-2">Timeframe:</MudText>
                         <MudSelect T="string" @bind-Value="SelectedTimeframe" Variant="Variant.Outlined" Dense="true">
-                            <MudSelectItem Value="@("Per Term")">Per Term</MudSelectItem>
-                            <MudSelectItem Value="@("Per Test")">Per Test</MudSelectItem>
-                            <MudSelectItem Value="@("Per Year")">Per Year</MudSelectItem>
+                            <MudSelectItem Value=@("Per Term")>Per Term</MudSelectItem>
+                            <MudSelectItem Value=@("Per Test")>Per Test</MudSelectItem>
+                            <MudSelectItem Value=@("Per Year")>Per Year</MudSelectItem>
                         </MudSelect>
                     </div>
                 </MudItem>
@@ -45,7 +44,6 @@
 
             <!-- Main Content: Table and Charts -->
             <MudGrid>
-                <!-- Left: Student Table -->
                 <MudItem xs="12" lg="6">
                     <MudPaper Elevation="2" Class="pa-4" Style="max-height: 45rem; overflow-y: auto;">
                         <MudTable Items="@Students" Dense="true" Hover="true" Striped="true">
@@ -78,43 +76,35 @@
                     </MudPaper>
                 </MudItem>
 
-                <!-- Right: Charts -->
                 <MudItem xs="12" lg="6">
                     <MudPaper Elevation="2" Class="pa-4">
-                        <!-- Bar Chart -->
                         <MudText Typo="Typo.h6" Class="mb-3">Marks per student</MudText>
-                        <div style="overflow: visible;">
-                            <MudChart ChartType="ChartType.Bar"
-                                      ChartSeries="@ChartSeries"
-                                      XAxisLabels="@ChartLabels"
-                                      ChartOptions="@ChartOptions"
-                                      AxisChartOptions="@AxisOptions"
-                                      Width="100%"
-                                      Height="400px" />
-                        </div>
+                        <MudChart ChartType="ChartType.Bar"
+                                  ChartSeries="@chartSeries"
+                                  XAxisLabels="@chartLabels"
+                                  ChartOptions="@chartOptions"
+                                  AxisChartOptions="@axisOptions"
+                                  Width="100%"
+                                  Height="400px" />
 
-                        <!-- Subject Progress Bars -->
                         <MudText Typo="Typo.h6" Class="mt-6 mb-3">Grade by subject (Average of subj.)</MudText>
-                        @foreach (var subj in Subjects)
+                        @foreach (var subj in subjects)
                         {
                             <div class="mb-4">
                                 <MudStack Row="true" Justify="Justify.SpaceBetween" Class="mb-1">
                                     <MudText Typo="Typo.body2">@subj.Name</MudText>
                                     <MudText Typo="Typo.body2">@subj.Average%</MudText>
                                 </MudStack>
-                                <MudProgressLinear Color="MudBlazor.Color.Primary"
+                                <MudProgressLinear Color="MudBlazor.Color.Info"
                                                    Value="@subj.Average"
                                                    Max="100"
                                                    Size="MudBlazor.Size.Medium"
-                                                   Class="rounded">
-                                    
-                                </MudProgressLinear>
+                                                   Class="rounded" />
                             </div>
                         }
                     </MudPaper>
                 </MudItem>
             </MudGrid>
-
         </MudContainer>
     </ChildContent>
     <ErrorContent Context="ex">
@@ -129,102 +119,3 @@
         </MudAlert>
     </ErrorContent>
 </ErrorBoundary>
-
-@code {
-    private string SelectedFilter = "Students";
-    private string SelectedBy = "Class";
-    private string SelectedTimeframe { get; set; } = "Per Term";
-    private string SelectedSort = "SurnameAsc";
-
-    private List<Student> Students = new()
-    {
-        new Student { Id = 1, Name = "Alice Smith", Mark = 87 },
-        new Student { Id = 2, Name = "Bob Johnson", Mark = 92 },
-        new Student { Id = 3, Name = "Charlie Brown", Mark = 75 },
-        new Student { Id = 4, Name = "Diana Clark", Mark = 80 },
-        new Student { Id = 5, Name = "Ethan Lewis", Mark = 63 },
-        new Student { Id = 6, Name = "Fiona Adams", Mark = 55 },
-        new Student { Id = 7, Name = "George Hall", Mark = 47 },
-        new Student { Id = 8, Name = "Hannah Scott", Mark = 98 },
-        new Student { Id = 9, Name = "Ian Walker", Mark = 72 },
-        new Student { Id = 10, Name = "Julia King", Mark = 100 },
-        new Student { Id = 11, Name = "Kevin Wright", Mark = 81 },
-        new Student { Id = 12, Name = "Laura Green", Mark = 69 },
-        new Student { Id = 13, Name = "Michael Baker", Mark = 34 },
-        new Student { Id = 14, Name = "Nina Campbell", Mark = 90 },
-        new Student { Id = 15, Name = "Oliver Young", Mark = 77 },
-        new Student { Id = 16, Name = "Paula Edwards", Mark = 88 },
-        new Student { Id = 17, Name = "Quentin Hughes", Mark = 59 },
-        new Student { Id = 18, Name = "Rachel Price", Mark = 95 },
-        new Student { Id = 19, Name = "Samuel Perry", Mark = 66 },
-        new Student { Id = 20, Name = "Tina Foster", Mark = 73 }
-    };
-
-    private List<SubjectAverage> Subjects = new()
-    {
-        new SubjectAverage { Name = "Maths", Average = 45 },
-        new SubjectAverage { Name = "English", Average = 65 },
-        new SubjectAverage { Name = "Art", Average = 83 },
-    };
-
-    // Chart data
-    private List<ChartSeries> ChartSeries = new();
-    private string[] ChartLabels = Array.Empty<string>();
-    private ChartOptions ChartOptions = new();
-    private AxisChartOptions AxisOptions = new(); 
-
-    protected override void OnInitialized()
-    {
-        SetupChart();
-    }
-
-    private void SetupChart()
-    {
-        // X-axis labels
-        ChartLabels = Students.Select(s => s.Name).ToArray();
-
-        // Single series for marks
-        ChartSeries = new List<ChartSeries>
-    {
-        new ChartSeries
-        {
-            Name = "Marks",
-            Data = Students.Select(s => (double)s.Mark).ToArray()
-        }
-    };
-
-        // Chart options (colors, Y axis lines, etc.)
-        ChartOptions = new ChartOptions
-        {
-            ChartPalette = new string[] { "#925cf0", "#F803FE", "#925cf0", "#4da6ff", "#ffb84d" },
-            YAxisLines = true,
-            XAxisLines = false,
-            MaxNumYAxisTicks = 10,
-            YAxisTicks = 10
-        };
-
-        // Axis options (rotation and spacing)
-        AxisOptions = new AxisChartOptions
-        {
-            LabelRotation = 45,         // Rotate labels 45 degrees
-            LabelExtraHeight = 150,      // Add extra height for rotated labels
-            MatchBoundsToSize = true,   // Fill parent width
-            StackedBarWidthRatio = 2  // Adjust bar width
-        };
-    }
-
-
-
-    class Student
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Mark { get; set; }
-    }
-
-    class SubjectAverage
-    {
-        public string Name { get; set; }
-        public double Average { get; set; }
-    }
-}

@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Components.Routing
 @inherits ComponentBase
-
 <div class="nav-header">
     <button class="hamburger" title="Toggle menu" @onclick="HandleToggle">
         <span class="bi bi-list" aria-hidden="true"></span>
@@ -10,39 +9,84 @@
         }
     </button>
 </div>
-
 <div class="nav-scrollable">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="home" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill" aria-hidden="true"></span>
-                @if (IsNavExpanded) { <span class="label">Home</span> }
+                <span class="bi bi-house-door" aria-hidden="true"></span>
+                @if (IsNavExpanded)
+                {
+                    <span class="label">Home</span>
+                }
             </NavLink>
         </div>
-
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="marks/markcalculator">
-                <span class="bi bi-plus-square-fill" aria-hidden="true"></span>
-                @if (IsNavExpanded) { <span class="label">Mark Calculator</span> }
+                <span class="bi bi-plus-square" aria-hidden="true"></span>
+                @if (IsNavExpanded)
+                {
+                    <span class="label">Mark Calculator</span>
+                }
             </NavLink>
         </div>
-
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="schedule/weeklyschedule">
                 <span class="bi bi-list-nested" aria-hidden="true"></span>
-                @if (IsNavExpanded) { <span class="label">Weekly Schedule</span> }
+                @if (IsNavExpanded)
+                {
+                    <span class="label">Weekly Schedule</span>
+                }
             </NavLink>
+        </div>
+        <!-- Collapsible Template Management -->
+        <div class="nav-group">
+            <div class="nav-item px-3">
+                <div class="nav-link nav-group-toggle" @onclick="ToggleTemplateManagement">
+                    <span class="bi bi-file-earmark" aria-hidden="true"></span>
+                    @if (IsNavExpanded)
+                    {
+                        <span class="label">Template Management</span>
+                        <span class="bi @(IsTemplateExpanded ? "bi-caret-up" : "bi-caret-down") expand-icon"></span>
+                    }
+                </div>
+            </div>
+            @if (IsNavExpanded)
+            {
+                <div class="nav-group-items @(IsTemplateExpanded ? "expanded" : "")">
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link nav-sublink" href="templates/rubrics">
+                            <span class="bi bi-table subitem-icon" aria-hidden="true"></span>
+                            <span class="label">Rubrics</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link nav-sublink" href="templates/lessonplans">
+                            <span class="bi bi-journal-text subitem-icon" aria-hidden="true"></span>
+                            <span class="label">Lesson Plans</span>
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link nav-sublink" href="templates/tests">
+                            <span class="bi bi-pencil-square subitem-icon" aria-hidden="true"></span>
+                            <span class="label">Tests</span>
+                        </NavLink>
+                    </div>
+                </div>
+            }
         </div>
     </nav>
 </div>
-
 @code {
     [Parameter] public bool IsNavExpanded { get; set; } = true;
     [Parameter] public EventCallback OnToggleNav { get; set; }
-
+    private bool IsTemplateExpanded = false;
     private async Task HandleToggle()
     {
         if (OnToggleNav.HasDelegate)
             await OnToggleNav.InvokeAsync(null);
+    }
+    private void ToggleTemplateManagement()
+    {
+        IsTemplateExpanded = !IsTemplateExpanded;
     }
 }

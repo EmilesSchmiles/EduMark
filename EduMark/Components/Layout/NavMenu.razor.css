@@ -138,3 +138,75 @@
 .sidebar.collapsed .nav-scrollable {
     overflow-x: hidden;
 }
+/* Nav Group Styles */
+.nav-group {
+    margin: 0;
+}
+
+.nav-group-toggle {
+    cursor: pointer;
+    position: relative;
+}
+
+.expand-icon {
+    position: absolute;
+    right: 12px;
+    margin-right: 0 !important;
+    width: 1rem !important;
+    height: 1rem !important;
+    font-size: 1rem !important;
+    transition: transform 0.3s ease;
+}
+
+.nav-group-items {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease-in-out;
+}
+
+    .nav-group-items.expanded {
+        max-height: 300px; /* Adjust based on your content */
+    }
+
+.nav-sublink {
+    padding-left: 3.5rem !important;
+    height: 2.5rem !important;
+    line-height: 2.5rem !important;
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-group-items.expanded .nav-sublink {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-sublink .label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-sublink:hover .label {
+    color: #f1ab2d;
+}
+
+.nav-sublink.active .label {
+    color: #f1ab2d;
+}
+
+.subitem-icon {
+    margin-left: 2rem !important; /* Indent the icon */
+    width: 1rem !important;
+    height: 1rem !important;
+    font-size: 1rem !important;
+    margin-right: 0.75rem !important;
+}
+
+.nav-sublink:hover .subitem-icon {
+    color: #f1ab2d;
+}
+
+.nav-sublink.active .subitem-icon {
+    color: #f1ab2d;
+}

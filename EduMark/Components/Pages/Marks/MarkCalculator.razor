@@ -1,16 +1,167 @@
 ﻿@page "/marks/markcalculator"
+@layout MainLayout
+@inherits MarkCalculatorBase
+@using MudBlazor
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="py-4">
+
+    <!-- Students / Mark Input / Actions Row -->
+    <MudGrid Class="mb-4" AlignItems="Center" GutterSize="2">
+
+        <!-- Students dropdown -->
+        <MudItem xs="12" md="4">
+            <MudAutocomplete T="string"
+                             @bind-Value="SelectedStudent"
+                             Label="Students"
+                             Dense="true"
+                             Variant="Variant.Outlined"
+                             SearchFunc="SearchStudents"
+                             CoerceText="true" />
+        </MudItem>
+
+        <!-- Mark Out Of -->
+        <MudItem xs="12" md="4">
+            <MudTextField T="int"
+                          Label=@($"Mark out of {TotalMark}")
+                          Variant="Variant.Outlined"
+                          Dense="true"
+                          @bind-Value="EnteredMark" />
+        </MudItem>
+
+        <!-- Action buttons -->
+        <MudItem xs="12" md="4" Class="d-flex justify-end gap-2">
+
+            <MudButton Color="MudBlazor.Color.Success"
+                       Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Add"
+                       Size="MudBlazor.Size.Small"
+                       Style="min-height:36px; height:36px; padding:0 8px;"
+                       OnClick="OpenAddTestDialog">
+                Add new Test
+            </MudButton>
 
 
-<p role="status">Current count: @currentCount</p>
+            <MudButton Color="MudBlazor.Color.Error"
+                       Variant="Variant.Filled"
+                       Size="MudBlazor.Size.Small"
+                       Class="d-flex justify-center align-center"
+                       Style="min-width:36px; width:36px; height:36px;">
+                <MudIcon Icon="@Icons.Material.Filled.Delete" />
+            </MudButton>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Calculate</button>
+        </MudItem>
 
-@code {
-    private int currentCount = 0;
+        <!-- Add button UNDER the Mark input, aligned correctly -->
+        <MudItem xs="12" md="4" Class="mt-2">
+            <!-- invisible spacer so button aligns under the middle column -->
+        </MudItem>
 
-    private void IncrementCount()
-    {
-        currentCount++;
-        // Later you can add real mark calculation logic here
-    }
-}
+        <MudItem xs="12" md="4" Class="mt-2">
+            <MudButton Color="MudBlazor.Color.Primary"
+                       Variant="Variant.Filled"
+                       Size="MudBlazor.Size.Small"
+                       Class="w-100"
+                       @onclick="AddStudentMark">
+                Add
+            </MudButton>
+        </MudItem>
+
+        <!-- empty placeholder to maintain row balance -->
+        <MudItem xs="12" md="4"></MudItem>
+
+    </MudGrid>
+
+    <!-- Table of Marks -->
+    <MudPaper Elevation="2" Class="pa-4 mb-4" Style="height: calc(100vh - 300px); overflow-y: auto;">
+        <MudTable Items="@StudentMarks" Dense="true" Hover="true" Striped="true">
+            <HeaderContent>
+                <MudTh>ID</MudTh>
+                <MudTh>Student Name</MudTh>
+                <MudTh>Class</MudTh>
+                <MudTh>Mark</MudTh>
+                <MudTh>%</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.Id</MudTd>
+                <MudTd>@context.Name</MudTd>
+                <MudTd>@context.Class</MudTd>
+                <MudTd>@context.Mark/@context.Total</MudTd>
+                <MudTd>@context.Percentage%</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudPaper>
+
+    <!-- Bottom Right Buttons -->
+    <MudGrid>
+        <MudItem xs="12" Class="d-flex justify-end gap-2">
+            <MudButton Color="MudBlazor.Color.Warning" Variant="Variant.Filled" Size="MudBlazor.Size.Small" @onclick="DiscardAll">
+                Discard
+            </MudButton>
+
+            <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" Size="MudBlazor.Size.Small" @onclick="SaveAll">
+                Save
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+
+
+</MudContainer>
+
+
+
+<!-- ------------------------------- -->
+<!--       ADD NEW TEST MODAL        -->
+<!-- ------------------------------- -->
+<MudDialog Visible="_addTestDialogOpen" MaxWidth="MaxWidth.Medium">
+    <DialogContent>
+        <!-- Title -->
+        <MudText Typo="Typo.h6" Class="mb-2">New Test</MudText>
+        <MudDivider Class="mb-4" />
+        <MudGrid GutterSize="3">
+
+            <!-- Row 1: Test Name / Mark Count -->
+            <MudItem xs="12" md="6">
+                <MudTextField T="string" Label="Test Name" Variant="Variant.Outlined" Dense="true" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudTextField T="int" Label="Mark Count" Variant="Variant.Outlined" Dense="true" />
+            </MudItem>
+
+            <!-- Row 2: Test Weight / Class -->
+            <MudItem xs="12" md="6">
+                <MudTextField T="int" Label="Test Weight (%)" Variant="Variant.Outlined" Dense="true" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudSelect T="string" Label="For Class" Variant="Variant.Outlined" Dense="true">
+                    <MudSelectItem Value=@("Gr. 4")>Gr. 5</MudSelectItem>
+                    <MudSelectItem Value=@("Gr. 5")>Gr. 7</MudSelectItem>
+                    <MudSelectItem Value=@("Gr. 7")>Gr. 9</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+
+            <!-- Row 3: Subject / Counts towards final mark -->
+            <MudItem xs="12" md="6">
+                <MudSelect T="string" Label="Subject" Variant="Variant.Outlined" Dense="true">
+                    <MudSelectItem Value=@("Art")>Art</MudSelectItem>
+                    <MudSelectItem Value=@("English")>English</MudSelectItem>
+                    <MudSelectItem Value=@("Afrikaans")>Math</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" md="6" Class="d-flex align-items-center">
+                <MudCheckBox T="bool" Label="Counts towards final mark" @bind-Checked="CountsTowardsFinal" />
+            </MudItem>
+
+
+        </MudGrid>
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" OnClick="SaveNewTest">
+            Create
+        </MudButton>
+        <MudButton Color="MudBlazor.Color.Secondary" Variant="Variant.Text" OnClick="CloseAddTestDialog">
+            Cancel
+        </MudButton>
+    </DialogActions>
+</MudDialog>

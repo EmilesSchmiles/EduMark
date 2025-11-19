@@ -26,7 +26,7 @@ main {
 
     /* expanded / collapsed widths */
     .sidebar.expanded {
-        width: 210px;
+        width: 250px;
     }
 
     .sidebar.collapsed {
@@ -110,8 +110,6 @@ main {
 .content {
     padding-top: 1rem;
 }
-
-
 
 /* small screens behaviour (still ok to keep) */
 @media (max-width: 640.98px) {
