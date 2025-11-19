@@ -1,6 +1,11 @@
 ﻿@inject NavigationManager NavManager
 @inherits LayoutComponentBase
 
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
 <div class="page">
     <!-- Sidebar -->
     <div class="sidebar @(isNavExpanded ? "expanded" : "collapsed")">
@@ -40,7 +45,7 @@
 @code {
     private bool isNavExpanded = true;
     private bool IsUserDropdownOpen = false;
-    private string UserName = "John Doe"; // replace with actual user
+    private string UserName = "John Doe";
     private string CurrentPageTitle { get; set; } = "Student Performance Overview";
 
     protected override void OnInitialized()

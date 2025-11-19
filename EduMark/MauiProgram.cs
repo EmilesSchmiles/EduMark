@@ -6,6 +6,7 @@ using EduMark.Services.Implementations;
 using EduMark.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+using MudBlazor.Services;
 
 
 #if WINDOWS
@@ -45,10 +46,12 @@ namespace EduMark
             builder.Services.AddSingleton<AppDb>();
             builder.Services.AddSingleton<IAuthService, AuthService>();
             builder.Services.AddSingleton<IEmailService, EmailService>();
+            builder.Services.AddMudServices();
+
 
 
 #if WINDOWS
-builder.ConfigureLifecycleEvents(events =>
+            builder.ConfigureLifecycleEvents(events =>
 {
     events.AddWindows(win =>
     {

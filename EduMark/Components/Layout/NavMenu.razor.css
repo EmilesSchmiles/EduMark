@@ -2,7 +2,7 @@
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-image: linear-gradient(180deg, #4da6ff 33%, #925cf0 66%, #F803FE 99%);
+    background-image: linear-gradient(180deg, #4da6ff 17%, #925cf0 66%, #F803FE 99%);
     white-space: nowrap;
     overflow-x: hidden;
     transition: width 0.25s ease;
@@ -43,7 +43,7 @@
     align-items: center;
     gap: 5px;
     cursor: pointer;
-    padding: 20px;
+    padding: 16px;
 }
 
 /* --- Nav items --- */
